@@ -22,12 +22,16 @@ const Head = () => {
 
       <div className="col-span-10 px-10">
         <input
-          className="w-1/2 border border-gray-600 rounded-l-full p-2"
+          className="w-1/2 border border-gray-600 rounded-l-full border-r-0 p-2"
           placeholder="Search"
           type="text"
         />
         <button className="border border-gray-600 rounded-r-full px-5 py-2 bg-gray-100">
-          Search
+          <img
+            className="h-5 inline-block"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-aKJ9AbwvP0MGcEyOeOw_4XGgMktjq1WMsA&s"
+            alt="search"
+          />
         </button>
       </div>
 
