@@ -1,11 +1,15 @@
 import React from "react";
-import ManuItems from "./ManuItems";
 
 const Sidebar = () => {
   return (
-    <div>
-      Sidebar
-      <ManuItems />
+    <div className="p-5 shadow-lg col-span-1">
+      <h1>Subscriptions</h1>
+      <ul>
+        <li>Music</li>
+        <li>Sports</li>
+        <li>Gaming</li>
+        <li>Movies</li>
+      </ul>
     </div>
   );
 };
