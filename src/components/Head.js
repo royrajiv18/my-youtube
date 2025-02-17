@@ -1,8 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
+import { YOUTUBE_SEARCH_API } from "../utils/constants";
 
 const Head = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // ************DEBOUNCING ******
+  // make an api call after every key press
+  // but if the if difference b/w the two API call is < 200 ms
+  // decline the API call
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      getSearchSuggestions();
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchQuery]);
+
+  const getSearchSuggestions = async () => {
+    const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
+    const json = await data.json();
+    console.log("search -", json.items[0]);
+  };
+
+  // ******************************************
+
   const dispatch = useDispatch();
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -28,6 +54,8 @@ const Head = () => {
           className="w-1/2 border border-gray-600 rounded-l-full border-r-0 p-2"
           placeholder="Search"
           type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
         <button className="border border-gray-600 rounded-r-full px-5 py-2 bg-gray-100">
           <img
