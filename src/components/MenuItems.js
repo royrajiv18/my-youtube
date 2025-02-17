@@ -1,7 +1,7 @@
 import React from "react";
 
-const ManuItems = () => {
+const MenuItems = () => {
   return <div>ManuItems</div>;
 };
 
-export default ManuItems;
+export default MenuItems;

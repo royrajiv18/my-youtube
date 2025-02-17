@@ -1,8 +1,11 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { toggleMenu } from "../utils/appSlice";
 
 const Head = () => {
-  const handleHamburgerClick = () => {
-    console.log("hamburger menu clicked");
+  const dispatch = useDispatch();
+  const toggleMenuHandler = () => {
+    dispatch(toggleMenu());
   };
   return (
     <div className="grid grid-flow-col p-5 m-2 shadow-lg">
@@ -10,7 +13,7 @@ const Head = () => {
         <img
           className="h-5 cursor-pointer"
           alt="menu"
-          onClick={handleHamburgerClick}
+          onClick={() => toggleMenuHandler()}
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/640px-Hamburger_icon.svg.png"
         />
         <img
