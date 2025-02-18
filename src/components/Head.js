@@ -5,6 +5,7 @@ import { YOUTUBE_SEARCH_API } from "../utils/constants";
 
 const Head = () => {
   const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -59,6 +60,8 @@ const Head = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setShowSuggestions(false)}
           />
           <button className="border border-gray-600 rounded-r-full px-5 py-2 bg-gray-100">
             <img
@@ -67,16 +70,18 @@ const Head = () => {
               alt="search"
             />
           </button>
-          <div className="fixed bg-white py-2 px-5 w-[29rem] shadow-lg rounded-lg border border-gray-100">
-            <ul>
-              {suggestions.length > 0 &&
-                suggestions.map((s) => (
-                  <li key={s} className="py-2 shadow-sm hover:bg-gray-200">
-                    🔎 {s?.snippet?.title}
-                  </li>
-                ))}
-            </ul>
-          </div>
+          {showSuggestions && (
+            <div className="absolute bg-white py-2 px-5 w-[29rem] shadow-lg rounded-lg border border-gray-100">
+              <ul>
+                {suggestions.length > 0 &&
+                  suggestions.map((s) => (
+                    <li key={s} className="py-2 shadow-sm hover:bg-gray-200">
+                      🔎 {s?.snippet?.title}
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
 
