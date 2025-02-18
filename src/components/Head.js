@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
+import { cacheResults } from "../utils/searchSlice";
 
 const Head = () => {
   const [suggestions, setSuggestions] = useState([]);
@@ -9,14 +10,31 @@ const Head = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
 
+  const searchCache = useSelector((store) => store.search);
+
   // ************DEBOUNCING ******
-  // make an api call after every key press
-  // but if the if difference b/w the two API call is < 200 ms
-  // decline the API call
+
+  // Make an api call after every key press
+  // But if the if difference b/w the two API call is < 200 ms
+  // Decline the API call
+
+  // ********************************
+
+  // Using CACHE to reduce api calls
+  /*
+      searchCache = {
+          iphone: ["iphone 11, iphone 13"]
+      }
+      searchQuery = iphone
+*/
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      getSearchSuggestions();
+      if (searchCache[searchQuery]) {
+        setSuggestions(searchCache[searchQuery]);
+      } else {
+        getSearchSuggestions();
+      }
     }, 200);
 
     return () => {
@@ -28,6 +46,13 @@ const Head = () => {
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const json = await data.json();
     setSuggestions(json.items);
+
+    // UPDATE CACHE
+    dispatch(
+      cacheResults({
+        [searchQuery]: json.items,
+      })
+    );
   };
 
   // ******************************************
